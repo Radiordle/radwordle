@@ -7,9 +7,15 @@ interface DiagnosisAutocompleteProps {
   conditions: Condition[];
   onSubmit: (diagnosis: string) => void;
   onDropdownStateChange: (isOpen: boolean) => void;
+  previousGuesses?: string[];
 }
 
-export default function DiagnosisAutocomplete({ conditions, onSubmit, onDropdownStateChange }: DiagnosisAutocompleteProps) {
+export default function DiagnosisAutocomplete({
+  conditions,
+  onSubmit,
+  onDropdownStateChange,
+  previousGuesses = []
+}: DiagnosisAutocompleteProps) {
   const [inputValue, setInputValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -42,8 +48,21 @@ export default function DiagnosisAutocomplete({ conditions, onSubmit, onDropdown
     setSelectedIndex(-1);
   };
 
+  // Check if a condition was previously guessed (case-insensitive)
+  const isPreviouslyGuessed = (conditionName: string) => {
+    const normalizedName = conditionName.toLowerCase().trim();
+    return previousGuesses.some(
+      guess => guess.toLowerCase().trim() === normalizedName
+    );
+  };
+
   // Handle option selection
   const handleSelectOption = (conditionName: string) => {
+    // Prevent selection of previously guessed conditions
+    if (isPreviouslyGuessed(conditionName)) {
+      return;
+    }
+
     setInputValue(conditionName);
     setIsOpen(false);
     setSelectedIndex(-1);
@@ -63,18 +82,34 @@ export default function DiagnosisAutocomplete({ conditions, onSubmit, onDropdown
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
-        setSelectedIndex((prev) =>
-          prev < filteredConditions.length - 1 ? prev + 1 : prev
-        );
+        // Skip previously guessed items
+        let nextIndex = selectedIndex + 1;
+        while (
+          nextIndex < filteredConditions.length &&
+          isPreviouslyGuessed(filteredConditions[nextIndex].name)
+        ) {
+          nextIndex++;
+        }
+        if (nextIndex < filteredConditions.length) {
+          setSelectedIndex(nextIndex);
+        }
         break;
       case 'ArrowUp':
         e.preventDefault();
-        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1));
+        // Skip previously guessed items
+        let prevIndex = selectedIndex - 1;
+        while (prevIndex >= 0 && isPreviouslyGuessed(filteredConditions[prevIndex].name)) {
+          prevIndex--;
+        }
+        setSelectedIndex(prevIndex);
         break;
       case 'Enter':
         e.preventDefault();
         if (selectedIndex >= 0 && selectedIndex < filteredConditions.length) {
-          handleSelectOption(filteredConditions[selectedIndex].name);
+          const selectedCondition = filteredConditions[selectedIndex].name;
+          if (!isPreviouslyGuessed(selectedCondition)) {
+            handleSelectOption(selectedCondition);
+          }
         } else {
           handleSubmit();
         }
@@ -125,7 +160,7 @@ export default function DiagnosisAutocomplete({ conditions, onSubmit, onDropdown
   };
 
   return (
-    <div ref={containerRef} className="w-full max-w-2xl flex gap-3 relative">
+    <div ref={containerRef} className="w-full max-w-2xl mx-auto flex gap-3">
       <div className="flex-1 relative">
         <input
           ref={inputRef}
@@ -148,17 +183,31 @@ export default function DiagnosisAutocomplete({ conditions, onSubmit, onDropdown
               className="overflow-y-auto"
               style={{ maxHeight: '320px' }}
             >
-              {filteredConditions.map((condition, index) => (
-                <button
-                  key={condition.id}
-                  onClick={() => handleSelectOption(condition.name)}
-                  className={`w-full text-left px-6 py-3 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0 ${
-                    index === selectedIndex ? 'bg-blue-100' : ''
-                  }`}
-                >
-                  <div className="text-gray-800 font-medium">{condition.name}</div>
-                </button>
-              ))}
+              {filteredConditions.map((condition, index) => {
+                const isDisabled = isPreviouslyGuessed(condition.name);
+
+                return (
+                  <button
+                    key={condition.id}
+                    onClick={() => handleSelectOption(condition.name)}
+                    disabled={isDisabled}
+                    className={`w-full text-left px-6 py-3 transition-colors border-b border-gray-100 last:border-b-0 ${
+                      isDisabled
+                        ? 'cursor-not-allowed bg-gray-50'
+                        : 'hover:bg-blue-50'
+                    } ${
+                      index === selectedIndex && !isDisabled ? 'bg-blue-100' : ''
+                    }`}
+                  >
+                    <div className={`font-medium ${isDisabled ? 'text-gray-400' : 'text-gray-800'}`}>
+                      {condition.name}
+                      {isDisabled && (
+                        <span className="ml-2 text-xs">(Previously selected)</span>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
 
             {/* Result count indicator */}

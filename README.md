@@ -147,3 +147,8 @@ Private repository - All rights reserved.
 ## Stuff to do 
 - Checkdown list should not allow prior guesses
 - Share button 
+- Border image
+- Font changes
+- Landing page background
+- Day logic
+Bouncing drop down menu
