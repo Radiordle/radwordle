@@ -1,4 +1,4 @@
-import { getTotalPuzzleCount, getPuzzleByNumber, getHintsForPuzzle, getAllConditions } from '@/lib/supabase';
+import { getTotalPuzzleCount, getPuzzleByNumber, getHintsForPuzzle } from '@/lib/supabase';
 import { getTodaysPuzzleNumber } from '@/lib/gameLogic';
 import Image from 'next/image';
 
@@ -8,124 +8,101 @@ export default async function Home() {
     const todaysPuzzleNumber = getTodaysPuzzleNumber(totalPuzzles);
     const puzzle = await getPuzzleByNumber(todaysPuzzleNumber);
     const hints = await getHintsForPuzzle(puzzle.id);
-    const conditions = await getAllConditions();
 
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 p-8">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <h1 className="text-4xl font-bold text-zinc-900 dark:text-zinc-50">
-            RadWordle Test Page
-          </h1>
+      <div className="min-h-screen relative overflow-hidden">
+        {/* Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1a2744] via-[#2d3e5f] to-[#1a2744]">
+          {/* Background decorative medical images */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute left-0 bottom-0 w-64 h-64 bg-[url('/placeholder-xray.png')] bg-contain bg-no-repeat opacity-30"></div>
+            <div className="absolute right-0 top-1/3 w-64 h-64 bg-[url('/placeholder-scan.png')] bg-contain bg-no-repeat opacity-30"></div>
+            <div className="absolute right-0 bottom-0 w-48 h-48 bg-[url('/placeholder-ct.png')] bg-contain bg-no-repeat opacity-30 rounded-full"></div>
+          </div>
+        </div>
 
-          <div className="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-semibold text-green-600 mb-4">
-              ✅ Supabase Connected
-            </h2>
+        {/* Content */}
+        <div className="relative z-10 min-h-screen flex flex-col">
+          {/* Header with buttons */}
+          <div className="flex justify-between items-start p-6">
+            <button className="flex items-center gap-2 px-4 py-2 bg-[#3d4d68] hover:bg-[#4a5b7a] text-white rounded-lg transition-colors">
+              <span className="text-xl">📁</span>
+              <span className="font-medium">Archives</span>
+            </button>
+            <button className="flex items-center gap-2 px-4 py-2 bg-[#3d4d68] hover:bg-[#4a5b7a] text-white rounded-lg transition-colors">
+              <span className="text-xl">📊</span>
+              <span className="font-medium">Stats</span>
+            </button>
           </div>
 
-          <div className="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50 mb-4">
-              📊 Database Stats
-            </h2>
-            <ul className="space-y-2 text-lg">
-              <li className="text-zinc-700 dark:text-zinc-300">
-                Total Puzzles: <span className="font-semibold">{totalPuzzles}</span>
-              </li>
-              <li className="text-zinc-700 dark:text-zinc-300">
-                Total Conditions: <span className="font-semibold">{conditions.length}</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50 mb-4">
-              🎯 Today&apos;s Puzzle (#{todaysPuzzleNumber})
-            </h2>
-            <div className="space-y-4">
-              <div className="text-lg">
-                <p className="text-zinc-700 dark:text-zinc-300">
-                  Answer: <span className="font-semibold">{puzzle.answer}</span>
-                </p>
-                <p className="text-zinc-700 dark:text-zinc-300">
-                  Difficulty: <span className="font-semibold capitalize">{puzzle.difficulty}</span>
-                </p>
+          {/* Main Content */}
+          <div className="flex-1 flex flex-col items-center justify-center px-4 pb-20">
+            {/* Logo and Title */}
+            <div className="flex items-center gap-3 mb-8">
+              <div className="relative w-16 h-16">
+                <Image
+                  src="/radle_icon.svg"
+                  alt="Radiordle Icon"
+                  width={64}
+                  height={64}
+                  className="object-contain"
+                />
               </div>
-              {puzzle.image_url && (
-                <div className="mt-4">
-                  <p className="text-zinc-700 dark:text-zinc-300 mb-2 font-medium">Image:</p>
-                  <div className="relative w-full aspect-[4/3] max-w-2xl bg-zinc-100 dark:bg-zinc-700 rounded-lg overflow-hidden">
-                    <Image
-                      src={puzzle.image_url}
-                      alt={`Puzzle ${puzzle.puzzle_number}`}
-                      fill
-                      className="object-contain"
-                      unoptimized
-                    />
-                  </div>
-                </div>
-              )}
+              <h1 className="text-6xl text-white font-fredoka font-bold tracking-tight">
+                Radiordle
+              </h1>
             </div>
-          </div>
 
-          <div className="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50 mb-4">
-              💡 Hints ({hints.length})
+            {/* Medical Image Display */}
+            <div className="w-full max-w-3xl mb-8">
+              <div className="relative w-full aspect-[16/9] bg-black rounded-lg overflow-hidden shadow-2xl">
+                {puzzle.image_url && (
+                  <Image
+                    src={puzzle.image_url}
+                    alt={`Puzzle ${puzzle.puzzle_number}`}
+                    fill
+                    className="object-contain"
+                    unoptimized
+                    priority
+                  />
+                )}
+              </div>
+            </div>
+
+            {/* Question */}
+            <h2 className="text-4xl text-white font-bold mb-6">
+              What&apos;s the Diagnosis?
             </h2>
-            <div className="space-y-4">
-              {hints.map((hint, index) => (
-                <div key={hint.id} className="border-l-4 border-blue-500 pl-4">
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                    {index + 1}. [{hint.content_type}]
-                  </p>
-                  {hint.hint_text && (
-                    <p className="text-zinc-700 dark:text-zinc-300 mt-1">
-                      {hint.hint_text}
-                    </p>
-                  )}
-                  {hint.image_url && (
-                    <div className="mt-2">
-                      <div className="relative w-full aspect-[4/3] max-w-md bg-zinc-100 dark:bg-zinc-700 rounded overflow-hidden">
-                        <Image
-                          src={hint.image_url}
-                          alt={hint.image_caption || `Hint ${index + 1}`}
-                          fill
-                          className="object-contain"
-                          unoptimized
-                        />
-                      </div>
-                      {hint.image_caption && (
-                        <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-                          {hint.image_caption}
-                        </p>
-                      )}
-                    </div>
+
+            {/* Hints Display */}
+            <div className="w-full max-w-2xl space-y-3 mb-6">
+              {hints.slice(0, 5).map((hint, index) => (
+                <div
+                  key={hint.id}
+                  className="bg-[#6b89b8] bg-opacity-60 backdrop-blur-sm rounded-lg px-6 py-4 text-white"
+                >
+                  {hint.hint_text ? (
+                    <p className="text-lg">{hint.hint_text}</p>
+                  ) : hint.image_caption ? (
+                    <p className="text-lg">{hint.image_caption}</p>
+                  ) : (
+                    <p className="text-lg opacity-50">Hint {index + 1}</p>
                   )}
                 </div>
               ))}
             </div>
-          </div>
 
-          <div className="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50 mb-4">
-              📋 Conditions (first30)
-            </h2>
-            <ul className="space-y-2">
-              {conditions.slice(0, 10).map((condition) => (
-                <li key={condition.id} className="text-zinc-700 dark:text-zinc-300">
-                  • {condition.name}
-                  {condition.category && (
-                    <span className="text-sm text-zinc-500 dark:text-zinc-400 ml-2">
-                      ({condition.category})
-                    </span>
-                  )}
-                </li>
-              ))}
-              {conditions.length > 10 && (
-                <li className="text-zinc-500 dark:text-zinc-400 italic">
-                  ... and {conditions.length - 10} more
-                </li>
-              )}
-            </ul>
+            {/* Input and Submit */}
+            <div className="w-full max-w-2xl flex gap-3">
+              <input
+                type="text"
+                placeholder="Diagnosis..."
+                className="flex-1 px-6 py-4 rounded-lg text-lg bg-white bg-opacity-90 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              />
+              <button className="px-8 py-4 bg-gradient-to-r from-[#f59e0b] to-[#fbbf24] hover:from-[#f59e0b] hover:to-[#f59e0b] text-black font-bold text-lg rounded-lg transition-all shadow-lg">
+                SUBMIT
+              </button>
+            </div>
           </div>
         </div>
       </div>
