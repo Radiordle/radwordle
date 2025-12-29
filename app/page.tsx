@@ -53,7 +53,7 @@ export default async function Home() {
               {puzzle.image_url && (
                 <div className="mt-4">
                   <p className="text-zinc-700 dark:text-zinc-300 mb-2 font-medium">Image:</p>
-                  <div className="relative w-full max-w-2xl h-96 bg-zinc-100 dark:bg-zinc-700 rounded-lg overflow-hidden">
+                  <div className="relative w-full aspect-[4/3] max-w-2xl bg-zinc-100 dark:bg-zinc-700 rounded-lg overflow-hidden">
                     <Image
                       src={puzzle.image_url}
                       alt={`Puzzle ${puzzle.puzzle_number}`}
@@ -83,14 +83,16 @@ export default async function Home() {
                     </p>
                   )}
                   {hint.image_url && (
-                    <div className="mt-2 relative w-full max-w-md h-48 bg-zinc-100 dark:bg-zinc-700 rounded overflow-hidden">
-                      <Image
-                        src={hint.image_url}
-                        alt={hint.image_caption || `Hint ${index + 1}`}
-                        fill
-                        className="object-contain"
-                        unoptimized
-                      />
+                    <div className="mt-2">
+                      <div className="relative w-full aspect-[4/3] max-w-md bg-zinc-100 dark:bg-zinc-700 rounded overflow-hidden">
+                        <Image
+                          src={hint.image_url}
+                          alt={hint.image_caption || `Hint ${index + 1}`}
+                          fill
+                          className="object-contain"
+                          unoptimized
+                        />
+                      </div>
                       {hint.image_caption && (
                         <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
                           {hint.image_caption}
@@ -105,7 +107,7 @@ export default async function Home() {
 
           <div className="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-lg">
             <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50 mb-4">
-              📋 Conditions (first 10)
+              📋 Conditions (first30)
             </h2>
             <ul className="space-y-2">
               {conditions.slice(0, 10).map((condition) => (
