@@ -28,6 +28,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'lh5.googleusercontent.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.radiordle.org',
+      },
     ],
     unoptimized: false, // Enable Next.js image optimization for better performance
   },
