@@ -56,64 +56,58 @@ export default function StatsModal({ isOpen, onClose, stats }: StatsModalProps) 
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl"
+        className="bg-gradient-to-b from-[#1e3a5f] to-[#0f1c2e] rounded-lg p-4 sm:p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto font-baloo-2"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
-        <div className="flex justify-end">
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
-          >
-            X
-          </button>
-        </div>
-
         {/* Title */}
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+        <h2 className="text-2xl sm:text-3xl font-bold text-white text-center mb-6">
           Your Statistics
         </h2>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-8">
-          <div className="text-center p-2 border border-gray-200 rounded-lg">
-            <p className="text-2xl sm:text-3xl font-bold text-gray-800">{stats.gamesPlayed}</p>
-            <p className="text-xs text-gray-500 uppercase">Games Played</p>
-          </div>
-          <div className="text-center p-2 border border-gray-200 rounded-lg">
-            <p className="text-2xl sm:text-3xl font-bold text-gray-800">{winRate}%</p>
-            <p className="text-xs text-gray-500 uppercase">Win Rate</p>
-          </div>
-          <div className="text-center p-2 border border-gray-200 rounded-lg">
-            <p className="text-2xl sm:text-3xl font-bold text-gray-800">{stats.currentStreak}</p>
-            <p className="text-xs text-gray-500 uppercase">Current Streak</p>
-          </div>
-          <div className="text-center p-2 border border-gray-200 rounded-lg">
-            <p className="text-2xl sm:text-3xl font-bold text-gray-800">{stats.maxStreak}</p>
-            <p className="text-xs text-gray-500 uppercase">Longest Streak</p>
+        {/* Statistics */}
+        <div className="bg-white rounded-lg p-3 sm:p-4 mb-4">
+          <h3 className="text-xl sm:text-2xl font-bold text-black text-center mb-2">Statistics</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 text-center">
+            <div>
+              <p className="text-xl sm:text-2xl font-bold text-[#407763] leading-tight">{stats.gamesPlayed}</p>
+              <p className="text-xs text-gray-600">Played</p>
+            </div>
+            <div>
+              <p className="text-xl sm:text-2xl font-bold text-[#407763] leading-tight">{winRate}</p>
+              <p className="text-xs text-gray-600">Win %</p>
+            </div>
+            <div>
+              <p className="text-xl sm:text-2xl font-bold text-[#407763] leading-tight">{stats.currentStreak}</p>
+              <p className="text-xs text-gray-600">Current Streak</p>
+            </div>
+            <div>
+              <p className="text-xl sm:text-2xl font-bold text-[#407763] leading-tight">{stats.maxStreak}</p>
+              <p className="text-xs text-gray-600">Max Streak</p>
+            </div>
           </div>
         </div>
 
         {/* Guess Distribution */}
-        <div className="border border-gray-200 rounded-lg p-4">
-          <h3 className="text-lg font-bold text-center text-gray-800 mb-4">
+        <div className="bg-white rounded-lg p-4 sm:p-6 mb-6">
+          <h3 className="text-lg sm:text-xl font-bold text-black text-center mb-4">
             Guess Distribution
           </h3>
           <div className="space-y-2">
             {Array.from({ length: MAX_GUESSES }, (_, i) => i + 1).map((guessNum) => {
               const count = stats.guessDistribution[guessNum] || 0;
               const percentage = maxDistribution > 0 ? (count / maxDistribution) * 100 : 0;
+              const barColor = count > 0 ? 'bg-gray-400' : 'bg-gray-100';
 
               return (
                 <div key={guessNum} className="flex items-center gap-2">
                   <span className="w-4 text-sm font-medium text-gray-600">{guessNum}</span>
-                  <div className="flex-1 h-6 bg-gray-100 rounded overflow-hidden">
+                  <div className="flex-1 h-6 bg-gray-200 rounded overflow-hidden">
                     <div
-                      className={`h-full ${count > 0 ? 'bg-green-600' : 'bg-gray-200'} rounded flex items-center justify-end px-2 transition-all duration-300`}
+                      className={`h-full ${barColor} rounded flex items-center justify-end px-2 transition-all duration-300`}
                       style={{ width: `${Math.max(percentage, count > 0 ? 8 : 0)}%` }}
                     >
                       {count > 0 && (
@@ -129,46 +123,54 @@ export default function StatsModal({ isOpen, onClose, stats }: StatsModalProps) 
 
         {/* Global Comparison */}
         {stats.gamesWon > 0 && (
-          <div className="mt-6 border border-gray-200 rounded-lg p-4 bg-gradient-to-r from-blue-50 to-indigo-50">
-            <h3 className="text-lg font-bold text-center text-gray-800 mb-3">
+          <div className="bg-gradient-to-r from-blue-500 from-10% to-indigo-600 to-90% bg-opacity-20 rounded-lg p-4 sm:p-6 mb-6">
+            <h3 className="text-lg sm:text-xl font-bold text-white text-center mb-3">
               How You Compare
             </h3>
             {percentileBeat !== null ? (
               <div className="text-center">
-                <p className="text-3xl font-bold text-indigo-600">
+                <p className="text-3xl font-bold text-yellow-400">
                   Top {100 - percentileBeat}%
                 </p>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-gray-200 mt-1">
                   You beat <span className="font-semibold">{percentileBeat}%</span> of players based on guess count
                 </p>
               </div>
             ) : globalStats === null ? (
-              <p className="text-center text-gray-500 text-sm">Loading global stats...</p>
+              <p className="text-center text-gray-300 text-sm">Loading global stats...</p>
             ) : (
-              <p className="text-center text-gray-500 text-sm">Not enough data yet</p>
+              <p className="text-center text-gray-300 text-sm">Not enough data yet</p>
             )}
             {globalStats && (
               <div className="mt-4 grid grid-cols-2 gap-3 text-center text-sm">
                 <div>
-                  <p className="text-gray-500">Global Win Rate</p>
-                  <p className="font-bold text-gray-700">{globalStats.winRate}%</p>
+                  <p className="text-gray-300">Global Win Rate</p>
+                  <p className="font-bold text-white">{globalStats.winRate}%</p>
                 </div>
                 <div>
-                  <p className="text-gray-500">Your Win Rate</p>
-                  <p className="font-bold text-gray-700">{winRate}%</p>
+                  <p className="text-gray-300">Your Win Rate</p>
+                  <p className="font-bold text-white">{winRate}%</p>
                 </div>
                 <div>
-                  <p className="text-gray-500">Global Avg Guess #</p>
-                  <p className="font-bold text-gray-700">{globalStats.avgGuesses.toFixed(1)}</p>
+                  <p className="text-gray-300">Global Avg Guess #</p>
+                  <p className="font-bold text-white">{globalStats.avgGuesses.toFixed(1)}</p>
                 </div>
                 <div>
-                  <p className="text-gray-500">Your Avg Guess #</p>
-                  <p className="font-bold text-gray-700">{userAvgGuesses.toFixed(1)}</p>
+                  <p className="text-gray-300">Your Avg Guess #</p>
+                  <p className="font-bold text-white">{userAvgGuesses.toFixed(1)}</p>
                 </div>
               </div>
             )}
           </div>
         )}
+
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="w-full px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-lg transition-all"
+        >
+          Close
+        </button>
       </div>
     </div>
   );

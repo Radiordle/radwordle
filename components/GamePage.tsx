@@ -196,14 +196,16 @@ export default function GamePage({ puzzle, hints, conditions, dayNumber, isArchi
         </div>
       </div>
 
-      {/* Footer - Only visible when scrolling */}
-      <footer className="relative z-10 bg-gradient-to-r from-[#0f1c2e] via-[#1a2744] to-[#0f1c2e] border-t border-white border-opacity-5">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <p className="text-white text-center text-sm font-baloo-2 opacity-70">
-            Radiordle is for entertainment and educational use only and does not provide medical advice. Always consult a qualified healthcare professional for medical concerns.
-          </p>
-        </div>
-      </footer>
+      {/* Footer - Only visible on main game page when playing */}
+      {!gameState?.isComplete && !showStats && (
+        <footer className="relative z-10 bg-gradient-to-r from-[#0f1c2e] via-[#1a2744] to-[#0f1c2e] border-t border-white border-opacity-5">
+          <div className="max-w-6xl mx-auto px-6 py-4">
+            <p className="text-white text-center text-xs font-baloo-2 opacity-70">
+              Radiordle is designed for entertainment and general educational interest only and does not provide medical advice. Users should consult a qualified healthcare professional for medical concerns. All images used are sourced from open-source or free-use collections and are used in accordance with their licenses.
+            </p>
+          </div>
+        </footer>
+      )}
     </div>
   );
 }

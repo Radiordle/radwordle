@@ -61,16 +61,6 @@ export default function ArchivePage() {
           <ArchiveBrowser />
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="relative z-10 bg-gradient-to-r from-[#0f1c2e] via-[#1a2744] to-[#0f1c2e] border-t border-white border-opacity-5">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <p className="text-white text-center text-sm font-baloo-2 opacity-70">
-            Radiordle is for entertainment and educational use only and does not provide medical
-            advice. Always consult a qualified healthcare professional for medical concerns.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
