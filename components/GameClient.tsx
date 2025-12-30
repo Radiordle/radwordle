@@ -139,7 +139,7 @@ export default function GameClient({
         ) : (
           <>
             <div className="mb-4 text-white text-center">
-              <p className="text-lg">
+              <p className="text-[1.237rem] font-baloo-2">
                 Guesses: {gameState.guesses.length} / {MAX_GUESSES}
               </p>
             </div>

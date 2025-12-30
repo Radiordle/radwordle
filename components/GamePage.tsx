@@ -25,33 +25,35 @@ export default function GamePage({ puzzle, hints, conditions }: GamePageProps) {
   return (
     <div className="min-h-screen relative overflow-y-auto overflow-x-hidden">
       {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#1a2744] via-[#2d3e5f] to-[#1a2744]">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1a2e5a] via-[#233b6e] to-[#1a2e5a]">
         {/* Background decorative medical images */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute left-0 bottom-0 w-64 h-64 bg-[url('/placeholder-xray.png')] bg-contain bg-no-repeat opacity-30"></div>
           <div className="absolute right-0 top-1/3 w-64 h-64 bg-[url('/placeholder-scan.png')] bg-contain bg-no-repeat opacity-30"></div>
           <div className="absolute right-0 bottom-0 w-48 h-48 bg-[url('/placeholder-ct.png')] bg-contain bg-no-repeat opacity-30 rounded-full"></div>
         </div>
+
+        {/* Radial Vignette - Static, Performance Optimized */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse at center, transparent 0%, transparent 45%, rgba(0, 0, 0, 0.3) 70%, rgba(0, 0, 0, 0.75) 88%, rgba(0, 0, 0, 0.9) 100%)'
+          }}
+        ></div>
       </div>
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col">
-        {/* Header with buttons */}
-        <div className="flex justify-between items-start p-6">
+        {/* Header with Logo and Buttons */}
+        <div className="flex justify-between items-center p-6">
+          {/* Archives Button */}
           <button className="flex items-center gap-2 px-4 py-2 bg-[#3d4d68] hover:bg-[#4a5b7a] text-white rounded-lg transition-colors">
             <span className="text-xl">📁</span>
-            <span className="font-medium">Archives</span>
+            <span className="font-bold font-baloo-2">Archives</span>
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-[#3d4d68] hover:bg-[#4a5b7a] text-white rounded-lg transition-colors">
-            <span className="text-xl">📊</span>
-            <span className="font-medium">Stats</span>
-          </button>
-        </div>
 
-        {/* Main Content */}
-        <div className="flex-1 flex flex-col items-center justify-center px-4 pb-20">
-          {/* Logo and Title */}
-          <div className="flex items-center gap-3 mb-8">
+          {/* Logo and Title - Centered */}
+          <div className="flex items-center gap-1">
             <div className="relative w-16 h-16">
               <Image
                 src="/radle_icon.svg"
@@ -61,10 +63,20 @@ export default function GamePage({ puzzle, hints, conditions }: GamePageProps) {
                 className="object-contain"
               />
             </div>
-            <h1 className="text-6xl text-white font-fredoka font-bold tracking-tight">
+            <h1 className="text-[3.375rem] text-white font-baloo-2 font-extrabold tracking-tight">
               Radiordle
             </h1>
           </div>
+
+          {/* Stats Button */}
+          <button className="flex items-center gap-2 px-4 py-2 bg-[#3d4d68] hover:bg-[#4a5b7a] text-white rounded-lg transition-colors">
+            <span className="text-xl">📊</span>
+            <span className="font-bold font-baloo-2">Stats</span>
+          </button>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col items-center justify-center px-4 pb-20">
 
           {/* Medical Image Display */}
           <div className="w-full max-w-3xl mb-8">
@@ -87,7 +99,7 @@ export default function GamePage({ puzzle, hints, conditions }: GamePageProps) {
           </div>
 
           {/* Question */}
-          <h2 className="text-4xl text-white font-bold mb-6">
+          <h2 className="text-[2.025rem] text-white font-bold font-baloo-2 mb-1">
             What&apos;s the Diagnosis?
           </h2>
 
@@ -149,6 +161,15 @@ export default function GamePage({ puzzle, hints, conditions }: GamePageProps) {
           />
         </div>
       </div>
+
+      {/* Footer - Only visible when scrolling */}
+      <footer className="relative z-10 bg-gradient-to-r from-[#0f1c2e] via-[#1a2744] to-[#0f1c2e] border-t border-white border-opacity-5">
+        <div className="max-w-6xl mx-auto px-6 py-4">
+          <p className="text-white text-center text-sm font-baloo-2 opacity-70">
+            Radiordle is for entertainment and educational use only and does not provide medical advice. Always consult a qualified healthcare professional for medical concerns.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
