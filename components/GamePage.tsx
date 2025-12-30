@@ -26,11 +26,13 @@ export default function GamePage({ puzzle, hints, conditions }: GamePageProps) {
     <div className="min-h-screen relative overflow-y-auto overflow-x-hidden">
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#1a2e5a] via-[#233b6e] to-[#1a2e5a]">
-        {/* Background decorative medical images */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute left-0 bottom-0 w-64 h-64 bg-[url('/placeholder-xray.png')] bg-contain bg-no-repeat opacity-30"></div>
-          <div className="absolute right-0 top-1/3 w-64 h-64 bg-[url('/placeholder-scan.png')] bg-contain bg-no-repeat opacity-30"></div>
-          <div className="absolute right-0 bottom-0 w-48 h-48 bg-[url('/placeholder-ct.png')] bg-contain bg-no-repeat opacity-30 rounded-full"></div>
+        {/* Background decorative medical images - mildly overlapped behind content */}
+        <div className="absolute inset-0 opacity-20 flex items-end justify-center pb-8">
+          <div className="relative w-[900px] h-[500px]">
+            <div className="absolute left-0 top-1/2 w-96 h-96 bg-[url('/placeholder-xray.png')] bg-contain bg-no-repeat opacity-40" style={{ transform: 'translateY(-50%) rotate(-8deg)' }}></div>
+            <div className="absolute left-1/2 top-1/2 w-80 h-80 bg-[url('/placeholder-scan.png')] bg-contain bg-no-repeat opacity-35" style={{ transform: 'translate(-50%, -50%) rotate(5deg)' }}></div>
+            <div className="absolute right-0 top-1/2 w-72 h-72 bg-[url('/placeholder-ct.png')] bg-contain bg-no-repeat opacity-30 rounded-full" style={{ transform: 'translateY(-50%) rotate(-12deg)' }}></div>
+          </div>
         </div>
 
         {/* Radial Vignette - Static, Performance Optimized */}
