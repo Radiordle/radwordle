@@ -143,10 +143,10 @@ export default function GamePage({ puzzle, hints, conditions, dayNumber, isArchi
         />
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col items-center justify-center px-4 pb-20">
+        <div className="flex-1 flex flex-col items-center justify-start sm:justify-center px-4 pb-20">
 
           {/* Medical Image Display */}
-          <div className="w-full max-w-3xl mb-8">
+          <div className="w-full max-w-3xl mb-3 sm:mb-8">
             <div className="relative w-full aspect-[16/9] bg-black rounded-lg overflow-hidden shadow-2xl">
               {puzzle.image_url ? (
                 <Image
