@@ -1,4 +1,4 @@
-import { getTodaysPuzzle, getHintsForPuzzle, getAllConditions } from '@/lib/supabase';
+import { getTodaysPuzzle, getHintsFromPuzzle, getAllConditions } from '@/lib/supabase';
 import { getDayNumber } from '@/lib/gameLogic';
 import GamePage from '@/components/GamePage';
 
@@ -9,7 +9,7 @@ export default async function Home() {
   try {
     const dayNumber = getDayNumber();
     const puzzle = await getTodaysPuzzle();
-    const hints = await getHintsForPuzzle(puzzle.id);
+    const hints = getHintsFromPuzzle(puzzle);
     const conditions = await getAllConditions();
 
     return (

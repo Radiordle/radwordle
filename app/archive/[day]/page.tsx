@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { getPuzzleForDay, getHintsForPuzzle, getAllConditions } from '@/lib/supabase';
+import { getPuzzleForDay, getHintsFromPuzzle, getAllConditions } from '@/lib/supabase';
 import { getDayNumber } from '@/lib/gameLogic';
 import GamePage from '@/components/GamePage';
 
@@ -29,7 +29,7 @@ export default async function ArchiveDayPage({ params }: ArchiveDayPageProps) {
 
   try {
     const puzzle = await getPuzzleForDay(dayNumber);
-    const hints = await getHintsForPuzzle(puzzle.id);
+    const hints = getHintsFromPuzzle(puzzle);
     const conditions = await getAllConditions();
 
     return (

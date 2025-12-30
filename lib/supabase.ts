@@ -26,6 +26,10 @@ export interface Puzzle {
   is_active: boolean;
   status: 'active' | 'retired' | 'draft';
   last_shown_day: number;
+  hint_1: string | null;
+  hint_2: string | null;
+  hint_3: string | null;
+  hint_4: string | null;
   created_at?: string;
 }
 
@@ -84,19 +88,55 @@ export async function getPuzzleByNumber(puzzleNumber: number): Promise<Puzzle> {
   return data;
 }
 
-export async function getHintsForPuzzle(puzzleId: string): Promise<Hint[]> {
-  const { data, error } = await supabase
-    .from('hints')
-    .select('*')
-    .eq('puzzle_id', puzzleId)
-    .order('hint_order', { ascending: true });
+export function getHintsFromPuzzle(puzzle: Puzzle): Hint[] {
+  const hints: Hint[] = [];
 
-  if (error) {
-    console.error('Error getting hints:', error);
-    throw error;
+  if (puzzle.hint_1) {
+    hints.push({
+      id: `${puzzle.id}-hint-1`,
+      puzzle_id: puzzle.id,
+      hint_order: 1,
+      content_type: 'text',
+      hint_text: puzzle.hint_1,
+      image_url: null,
+      image_caption: null,
+    });
+  }
+  if (puzzle.hint_2) {
+    hints.push({
+      id: `${puzzle.id}-hint-2`,
+      puzzle_id: puzzle.id,
+      hint_order: 2,
+      content_type: 'text',
+      hint_text: puzzle.hint_2,
+      image_url: null,
+      image_caption: null,
+    });
+  }
+  if (puzzle.hint_3) {
+    hints.push({
+      id: `${puzzle.id}-hint-3`,
+      puzzle_id: puzzle.id,
+      hint_order: 3,
+      content_type: 'text',
+      hint_text: puzzle.hint_3,
+      image_url: null,
+      image_caption: null,
+    });
+  }
+  if (puzzle.hint_4) {
+    hints.push({
+      id: `${puzzle.id}-hint-4`,
+      puzzle_id: puzzle.id,
+      hint_order: 4,
+      content_type: 'text',
+      hint_text: puzzle.hint_4,
+      image_url: null,
+      image_caption: null,
+    });
   }
 
-  return data || [];
+  return hints;
 }
 
 export async function getAllConditions(): Promise<Condition[]> {
