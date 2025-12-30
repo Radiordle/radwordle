@@ -80,7 +80,7 @@ export default function GamePage({ puzzle, hints, conditions, dayNumber, isArchi
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Header with Logo and Buttons */}
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 sm:p-6 gap-2 sm:gap-0">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 sm:p-6 gap-0 sm:gap-0">
           {/* Top row on mobile: Archives and Stats buttons */}
           <div className="flex justify-between items-center sm:contents">
             {/* Archives Button */}
@@ -119,7 +119,7 @@ export default function GamePage({ puzzle, hints, conditions, dayNumber, isArchi
           </div>
 
           {/* Logo and Title - Second row on mobile only */}
-          <div className="flex sm:hidden items-center justify-center gap-1 drop-shadow-[0_6px_20px_rgba(0,0,0,0.6)]">
+          <div className="flex sm:hidden items-center justify-center gap-1 drop-shadow-[0_6px_20px_rgba(0,0,0,0.6)] -mb-1">
             <div className="relative w-[72px] h-[72px]">
               <Image
                 src="/radle_icon.svg"
