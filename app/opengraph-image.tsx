@@ -24,14 +24,7 @@ export default async function Image() {
           gap: '24px',
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="https://radiordle.org/radle_icon.svg"
-          width={200}
-          height={200}
-          alt="Radiordle icon"
-          style={{ objectFit: 'contain' }}
-        />
+        <span style={{ fontSize: '150px' }}>🩻</span>
         <span style={{ fontWeight: 'bold' }}>Radiordle</span>
       </div>
     ),
