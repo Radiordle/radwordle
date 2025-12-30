@@ -2,8 +2,8 @@ import { ImageResponse } from 'next/og'
 
 export const alt = 'Radiordle'
 export const size = {
-  width: 1200,
-  height: 630,
+  width: 256,
+  height: 256,
 }
 export const contentType = 'image/png'
 
@@ -12,20 +12,15 @@ export default async function Image() {
     (
       <div
         style={{
-          fontSize: 64,
           background: '#1a237e',
           width: '100%',
           height: '100%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: 'white',
-          fontFamily: 'sans-serif',
-          gap: '24px',
         }}
       >
-        <span style={{ fontSize: '150px' }}>🩻</span>
-        <span style={{ fontWeight: 'bold' }}>Radiordle</span>
+        <span style={{ fontSize: '120px' }}>🩻</span>
       </div>
     ),
     {
