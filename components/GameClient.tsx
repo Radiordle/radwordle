@@ -22,6 +22,7 @@ interface GameClientProps {
   correctAnswer: string;
   isArchive: boolean;
   onGameStateChange: (state: GameState) => void;
+  onTypingStateChange?: (isTyping: boolean) => void;
 }
 
 export default function GameClient({
@@ -31,6 +32,7 @@ export default function GameClient({
   correctAnswer,
   isArchive,
   onGameStateChange,
+  onTypingStateChange,
 }: GameClientProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [gameState, setGameState] = useState<GameState | null>(null);
@@ -141,7 +143,8 @@ export default function GameClient({
 
   const handleDropdownStateChange = useCallback((isOpen: boolean) => {
     setIsDropdownOpen(isOpen);
-  }, []);
+    onTypingStateChange?.(isOpen);
+  }, [onTypingStateChange]);
 
   const handleCloseModal = useCallback(() => {
     setShowModal(false);
@@ -151,7 +154,7 @@ export default function GameClient({
 
   return (
     <>
-      <div className={`transition-all duration-300 ${isDropdownOpen ? 'pb-[450px]' : ''}`}>
+      <div className={`w-full transition-all duration-300 ${isDropdownOpen ? 'pb-[200px]' : ''}`}>
         {gameState.isComplete ? (
           <div className="text-center text-white text-xl font-baloo-2">
             {gameState.isWon ? (

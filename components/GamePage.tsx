@@ -36,8 +36,12 @@ export default function GamePage({ puzzle, hints, conditions, dayNumber, isArchi
     setGameState(state);
   }, []);
 
+
   // Determine which hints to show based on game state
-  const visibleHints = gameState ? hints.slice(0, gameState.revealedHints) : [];
+  // Show all hints when game is complete, otherwise only show revealed hints
+  const visibleHints = gameState
+    ? (gameState.isComplete ? hints : hints.slice(0, gameState.revealedHints))
+    : [];
 
   return (
     <div className="min-h-screen relative overflow-y-auto overflow-x-hidden">
@@ -75,7 +79,7 @@ export default function GamePage({ puzzle, hints, conditions, dayNumber, isArchi
           </Link>
 
           {/* Logo and Title - Centered */}
-          <div className="flex items-center gap-0.5 sm:gap-1">
+          <div className="flex items-center gap-0.5 sm:gap-1 drop-shadow-[0_6px_20px_rgba(0,0,0,0.6)]">
             <div className="relative w-8 h-8 sm:w-16 sm:h-16">
               <Image
                 src="/radle_icon.svg"
@@ -137,7 +141,7 @@ export default function GamePage({ puzzle, hints, conditions, dayNumber, isArchi
 
           {/* Hints Display - only show revealed hints */}
           {visibleHints.length > 0 && (
-            <div className="w-full max-w-2xl space-y-3 mb-6">
+            <div className="w-full max-w-xl mx-auto space-y-3 mb-6">
               {visibleHints.map((hint, index) => {
                 // Hints are revealed after a guess. The guess that revealed this hint is at index.
                 // To color the hint based on the NEXT guess after it was revealed, we look at index + 1.
@@ -198,7 +202,7 @@ export default function GamePage({ puzzle, hints, conditions, dayNumber, isArchi
 
       {/* Footer - Only visible on main game page when playing */}
       {!gameState?.isComplete && !showStats && (
-        <footer className="relative z-10 bg-gradient-to-r from-[#0f1c2e] via-[#1a2744] to-[#0f1c2e] border-t border-white border-opacity-5">
+        <footer className="relative bg-gradient-to-r from-[#0f1c2e] via-[#1a2744] to-[#0f1c2e] border-t border-white border-opacity-5">
           <div className="max-w-6xl mx-auto px-6 py-4">
             <p className="text-white text-center text-xs font-baloo-2 opacity-70">
               Radiordle is designed for entertainment and general educational interest only and does not provide medical advice. Users should consult a qualified healthcare professional for medical concerns. All images used are sourced from open-source or free-use collections and are used in accordance with their licenses.

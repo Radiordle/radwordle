@@ -31,7 +31,7 @@ export default function ArchivePage() {
           </Link>
 
           {/* Logo and Title - Centered */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 drop-shadow-[0_6px_20px_rgba(0,0,0,0.6)]">
             <div className="relative w-16 h-16">
               <Image
                 src="/radle_icon.svg"
@@ -53,7 +53,7 @@ export default function ArchivePage() {
         {/* Archive Title */}
         <div className="text-center mb-8">
           <h2 className="text-3xl text-white font-bold font-baloo-2">Archive</h2>
-          <p className="text-gray-300 mt-2">Play any past puzzle</p>
+          <p className="text-gray-300 mt-2 font-baloo-2">Play any past puzzle!</p>
         </div>
 
         {/* Archive Browser */}

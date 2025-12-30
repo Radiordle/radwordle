@@ -132,9 +132,18 @@ export default function DiagnosisAutocomplete({
     }
   }, [selectedIndex]);
 
-  // Notify parent component when dropdown state changes
+  // Notify parent component when dropdown state changes and scroll into view
   useEffect(() => {
-    onDropdownStateChange(isOpen && filteredConditions.length > 0);
+    const isDropdownVisible = isOpen && filteredConditions.length > 0;
+    onDropdownStateChange(isDropdownVisible);
+
+    // When dropdown opens, scroll to ensure dropdown options are visible
+    if (isDropdownVisible && dropdownRef.current) {
+      // Small delay to allow the dropdown to render and parent padding to be applied
+      setTimeout(() => {
+        dropdownRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
+    }
   }, [isOpen, filteredConditions.length, onDropdownStateChange]);
 
   // Close dropdown when clicking outside
@@ -156,11 +165,13 @@ export default function DiagnosisAutocomplete({
   const handleSubmit = () => {
     if (inputValue.trim()) {
       onSubmit(inputValue.trim());
+      setInputValue('');
+      setIsOpen(false);
     }
   };
 
   return (
-    <div ref={containerRef} className="w-full max-w-2xl mx-auto flex gap-2 sm:gap-3 px-2 sm:px-0">
+    <div ref={containerRef} className="w-full max-w-xl mx-auto flex gap-2 sm:gap-3 relative z-50">
       <div className="flex-1 relative">
         <input
           ref={inputRef}
@@ -181,7 +192,7 @@ export default function DiagnosisAutocomplete({
             <div
               ref={dropdownRef}
               className="overflow-y-auto"
-              style={{ maxHeight: '320px' }}
+              style={{ maxHeight: '180px' }}
             >
               {filteredConditions.map((condition, index) => {
                 const isDisabled = isPreviouslyGuessed(condition.name);
