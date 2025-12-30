@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Puzzle, Hint, Condition } from '@/lib/supabase';
 import GameClient from './GameClient';
-import { GameState } from '@/lib/localStorage';
+import StatsModal from './StatsModal';
+import { GameState, getStatistics, Statistics } from '@/lib/localStorage';
 
 interface GamePageProps {
   puzzle: Puzzle;
@@ -17,6 +18,19 @@ interface GamePageProps {
 
 export default function GamePage({ puzzle, hints, conditions, dayNumber, isArchive }: GamePageProps) {
   const [gameState, setGameState] = useState<GameState | null>(null);
+  const [showStats, setShowStats] = useState(false);
+  const [stats, setStats] = useState<Statistics>({
+    gamesPlayed: 0,
+    gamesWon: 0,
+    currentStreak: 0,
+    maxStreak: 0,
+    guessDistribution: {},
+  });
+
+  // Load stats on mount and when game state changes
+  useEffect(() => {
+    setStats(getStatistics());
+  }, [gameState?.isComplete]);
 
   const handleGameStateChange = useCallback((state: GameState) => {
     setGameState(state);
@@ -77,11 +91,21 @@ export default function GamePage({ puzzle, hints, conditions, dayNumber, isArchi
           </div>
 
           {/* Stats Button */}
-          <button className="flex items-center gap-2 px-4 py-2 bg-[#3d4d68] hover:bg-[#4a5b7a] text-white rounded-lg transition-colors">
+          <button
+            onClick={() => setShowStats(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-[#3d4d68] hover:bg-[#4a5b7a] text-white rounded-lg transition-colors"
+          >
             <span className="text-xl">📊</span>
             <span className="font-bold font-baloo-2">Stats</span>
           </button>
         </div>
+
+        {/* Stats Modal */}
+        <StatsModal
+          isOpen={showStats}
+          onClose={() => setShowStats(false)}
+          stats={stats}
+        />
 
         {/* Main Content */}
         <div className="flex-1 flex flex-col items-center justify-center px-4 pb-20">

@@ -136,9 +136,9 @@ export default function GameClient({
         {gameState.isComplete ? (
           <div className="text-center text-white text-xl">
             {gameState.isWon ? (
-              <p>Congratulations! You solved it!</p>
+              <p>Congratulations! The answer was <strong>{correctAnswer}</strong></p>
             ) : (
-              <p>Game Over. The answer was: {correctAnswer}</p>
+              <p>Game Over. The answer was: <strong>{correctAnswer}</strong></p>
             )}
             <button
               onClick={() => setShowModal(true)}
