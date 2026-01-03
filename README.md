@@ -145,4 +145,7 @@ Contact the repository owner for contribution guidelines and access to environme
 Private repository - All rights reserved.
 
 ## Stuff to do 
+- some stats are still wrong
+- feedback form
+- currently able to submit free text answers, make them from bank only for simplicity 
 
