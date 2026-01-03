@@ -56,7 +56,7 @@ export default function GamePage({ puzzle, hints, conditions, dayNumber, isArchi
   }
 
   return (
-    <div className="min-h-screen relative overflow-y-auto overflow-x-hidden">
+    <div className="min-h-screen sm:min-h-screen min-h-screen-safe relative overflow-y-auto overflow-x-hidden">
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#1a2e5a] via-[#233b6e] to-[#1a2e5a]">
         {/* Background decorative medical images - horizontal on desktop, vertical on mobile */}
@@ -90,7 +90,7 @@ export default function GamePage({ puzzle, hints, conditions, dayNumber, isArchi
       </div>
 
       {/* Content */}
-      <div className="relative z-10 min-h-screen flex flex-col">
+      <div className="relative z-10 min-h-screen sm:min-h-screen min-h-screen-safe flex flex-col">
         {/* Header with Logo and Buttons */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 sm:p-6 gap-0 sm:gap-0">
           {/* Top row on mobile: Archives and Stats buttons */}
@@ -155,7 +155,7 @@ export default function GamePage({ puzzle, hints, conditions, dayNumber, isArchi
         />
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col items-center justify-start sm:justify-center px-4 pb-20">
+        <div className="flex-1 flex flex-col items-center justify-start sm:justify-center px-4 pb-4 sm:pb-20">
 
           {/* Medical Image Display */}
           <div className="w-full max-w-3xl mb-3 sm:mb-8">
@@ -243,9 +243,9 @@ export default function GamePage({ puzzle, hints, conditions, dayNumber, isArchi
         </div>
       </div>
 
-      {/* Footer - Only visible on main game page when playing */}
+      {/* Footer - Only visible on desktop when playing */}
       {!gameState?.isComplete && !showStats && (
-        <footer className="relative bg-gradient-to-r from-[#0f1c2e] via-[#1a2744] to-[#0f1c2e] border-t border-white border-opacity-5">
+        <footer className="hidden sm:block relative bg-gradient-to-r from-[#0f1c2e] via-[#1a2744] to-[#0f1c2e] border-t border-white border-opacity-5">
           <div className="max-w-6xl mx-auto px-6 py-4">
             <p className="text-white text-center text-xs font-baloo-2 opacity-70">
               Radiordle is designed for entertainment and general educational interest only and does not provide medical advice. Users should consult a qualified healthcare professional for medical concerns. All images used are sourced from open-source or free-use collections and are used in accordance with their licenses.

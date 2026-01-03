@@ -196,7 +196,7 @@ export default function GameClient({
         )}
       </div>
 
-      {/* Mobile layout - fixed input at bottom */}
+      {/* Mobile layout - input in natural flow */}
       <div className="sm:hidden w-full">
         {gameState.isComplete ? (
           <div className="text-center text-white text-xl font-baloo-2">
@@ -226,10 +226,8 @@ export default function GameClient({
                 Guesses: {gameState.guesses.length} / {MAX_GUESSES}
               </p>
             </div>
-            {/* Spacer for fixed input area */}
-            <div className="h-[140px]"></div>
-            {/* Fixed input area at bottom */}
-            <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-[#0f1c2e] via-[#1a2e5a] to-transparent pt-6 pb-4 px-4 z-40">
+            {/* Input in natural document flow - not fixed */}
+            <div className="pb-[env(safe-area-inset-bottom,0px)]">
               <DiagnosisAutocomplete
                 conditions={conditions}
                 onSubmit={handleSubmit}
