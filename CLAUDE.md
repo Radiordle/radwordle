@@ -190,6 +190,42 @@ Shows when user has won at least 1 game:
 - **Global Avg Guesses** - Community average
 - **Total Players** - Total games played globally
 
+## Game Mechanics
+
+### Guess Evaluation System (`lib/gameLogic.ts`)
+
+Each guess is evaluated and returns one of three results:
+
+1. **`correct`** - Exact match (normalized comparison, case-insensitive, punctuation removed)
+2. **`partial`** - Related match via:
+   - Shared significant word (e.g., "septal" appears in both guess and answer)
+   - 5+ character prefix match (e.g., "esoph" matches "esophagus" to "esophageal")
+   - Common medical terms filtered out: of, the, a, an, with, disease, syndrome, disorder, condition, injury
+3. **`incorrect`** - No match
+
+### Color Feedback System (`components/GamePage.tsx`)
+
+**Hint Colors** - Each hint is colored based on the *next* guess after it was revealed:
+- Green (`#407763`) - Next guess was correct
+- Yellow (`#f6d656`) - Next guess was partial match
+- Red (`#9e4a4a`) - Next guess was incorrect
+- Blue (`#6b89b8`) - No next guess yet (default)
+
+**Image Border** - The image gets a colored border/glow based on the *first* guess:
+- The first guess is made with only the image as context (no hints yet)
+- Border reflects how helpful the image alone was for diagnosis
+- Same color scheme: green (correct), yellow (partial), red (incorrect)
+- No border until first guess is made
+
+### Game Flow
+
+1. Player sees image only, makes first guess
+2. If wrong, first hint reveals → hint stays blue until next guess
+3. Each subsequent wrong guess reveals another hint
+4. Previous hint gets colored based on the guess that followed it
+5. Maximum 5 guesses, 4 hints total
+6. Game ends on correct guess or after 5 attempts
+
 ## Dev Testing
 
 Use URL parameter `?day=N` in development to test specific days:
